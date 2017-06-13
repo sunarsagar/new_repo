@@ -16,15 +16,16 @@ import javax.swing.*;
 public class Drawing extends JFrame
      implements ActionListener,MouseListener {
 
-	
+	int radius;
 	private int x,y,x2,y2;
     private int count=0;
 	 
 	private static final long serialVersionUID = 1L;
 	private boolean drawLine = false;
-     private boolean drawRect = false;
+     
      private boolean drawOval = false;
      private JButton line;
+     private JButton oval;
      
      private JPanel buttonPanel;
      private DrawStuff drawPanel = new DrawStuff();
@@ -42,9 +43,11 @@ public class Drawing extends JFrame
          line.addActionListener(this);
          buttonPanel.add(line);
 
+         oval = new JButton("CIRCLE");
+         oval.addActionListener(this);
+         buttonPanel.add(oval);
+
          
-
-
          Container contentPane = this.getContentPane();
          contentPane.add(buttonPanel, BorderLayout.SOUTH);
          add(drawPanel);
@@ -80,7 +83,11 @@ public class Drawing extends JFrame
             count=0;
             drawLine = true;
             repaint();
-        }
+        } else if (source == oval) {
+        	radius = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter radius"));
+            drawOval = true;
+            repaint();
+        } 
     }
 
     public static void main(String[] args) {
@@ -100,6 +107,10 @@ public class Drawing extends JFrame
             	
             	g.drawLine(x, y, x2, y2);
                 drawLine = false;
+                
+            } else if (drawOval) {     	
+  				g.drawOval(10, 10, radius, radius);
+                drawOval = false;
                 
             } 
         }
